@@ -1,15 +1,19 @@
 import React from 'react';
-import { Button, Form, Input, Modal, Tooltip } from 'antd';
-import CurrencyInput from './CurrencyInput';
+import { Button, Form, InputNumber, Modal, Tooltip } from 'antd';
+import ShopItem from '@models/Shop';
 
-interface PaymentFormState {
+interface PurchaseFormProps {
+  item: ShopItem
+}
+
+interface PurchaseFormState {
   amount: number;
   visible: boolean;
   disabled: boolean;
 }
 
-class PaymentForm extends React.Component<{}, PaymentFormState> {
-  constructor(props: {}) {
+class PurchaseForm extends React.Component<PurchaseFormProps, PurchaseFormState> {
+  constructor(props: PurchaseFormProps) {
     super(props);
 
     this.state = {
@@ -26,10 +30,10 @@ class PaymentForm extends React.Component<{}, PaymentFormState> {
   onConfirm = async () => {
     const { amount } = this.state;
 
-    const body = { userId: 1, actionId: 2, amount };
+    const body = { userId: 1, itemId: 2, amount };
 
     // TODO: fix the fetch with credentials
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/actions/donation`,
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/shop/purchase`,
     {
       method: 'POST',
       headers: {
@@ -61,9 +65,11 @@ class PaymentForm extends React.Component<{}, PaymentFormState> {
   }
 
   render() {
+    const { item } = this.props;
     const { amount, visible, disabled } = this.state;
+    const { price, stock } = item;
 
-    const formattedAmount = amount && `€ ${amount.toFixed(2)}`;
+    const formattedAmount = amount && `€ ${(amount * price).toFixed(2)}`;
 
     return (
       <div>
@@ -73,7 +79,9 @@ class PaymentForm extends React.Component<{}, PaymentFormState> {
           onFinishFailed={this.onFinishFailed}
         >
           <Form.Item>
-            <CurrencyInput
+            <InputNumber
+              min={1}
+              max={stock}
               onChange={this.onAmountChange}
             />
           </Form.Item>
@@ -83,12 +91,12 @@ class PaymentForm extends React.Component<{}, PaymentFormState> {
               htmlType="submit"
               disabled={disabled}
             >
-              Doneer!
+              Bestel!
             </Button>
           </Form.Item>
         </Form>
         <Modal
-          title="Bevestig donatie"
+          title="Bevestig aankoop"
           visible={visible}
           onOk={this.onConfirm}
           onCancel={this.onCancel}
@@ -100,4 +108,4 @@ class PaymentForm extends React.Component<{}, PaymentFormState> {
   }
 }
 
-export default PaymentForm;
+export default PurchaseForm;

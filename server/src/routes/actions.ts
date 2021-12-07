@@ -63,6 +63,12 @@ router.get('/action', (req, res) => {
 // Body: { actionId, userId, amount }
 router.post('/donation', (req, res) => {
   console.log('donatie ontvangen, maar werkt nog niet. TODO');
+  console.log(req.body);
+
+  const { actionId, userId, amount } = req.body;
+
+  const currentDate = new Date().getTime();
+  console.log(currentDate);
 
   res.end();
 });

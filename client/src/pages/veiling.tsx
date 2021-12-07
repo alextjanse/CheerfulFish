@@ -11,7 +11,7 @@ function AuctionPage() {
         <title>Veiling | Cheerful Fish</title>
       </Head>
       <div>
-        <Title>Acties</Title>
+        <Title>Veiling</Title>
         <Paragraph>
           Hier komen alle producten te staan die worden geveild.
           Elk product krijgt ook zijn eigen pagina en eigen deadline,

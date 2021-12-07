@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { Button, Image, Statistic, Typography } from 'antd';
-import PaymentForm from '@components/PaymentForm/PaymentForm';
+import DonationForm from '@components/Forms/DonationForm';
 import Action from '@models/Action';
 
 const { Title, Paragraph } = Typography;
@@ -33,7 +33,7 @@ function ActionPage(props: ActionPageProps) {
           prefix="€"
           suffix={`/ ${target}`}
         />
-        <PaymentForm />
+        <DonationForm />
       </div>
     </div>
   );
@@ -61,8 +61,6 @@ export async function getStaticProps({ params }): Promise<{ props: ActionPagePro
   await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_NODE}/actions/action?id=${id}`)
     .then((res) => res.json())
     .then((json) => { action = json; });
-
-  console.log(action);
 
   return { props: { action } };
 }

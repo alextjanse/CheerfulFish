@@ -13,7 +13,7 @@ initDb();
 
 const app = express();
 app.use(morgan('dev'));
-app.use(cors({ origin: false }));
+app.use(cors());
 const port = process.env.SERVER_PORT;
 
 app.use(express.json());
